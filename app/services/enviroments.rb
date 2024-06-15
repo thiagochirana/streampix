@@ -1,5 +1,6 @@
 class Enviroments
   @@teste = ENV["TESTE_ENV"]
+  @@chave_pix = ENV["EFIPAY_CHAVE_PIX"]
 
   def self.efipay_client_id
     if is_develop_environment
@@ -35,6 +36,10 @@ class Enviroments
 
   def self.teste
     @@teste
+  end
+
+  def self.chave_pix
+    @@chave_pix
   end
 
   def self.is_develop_environment
