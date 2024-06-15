@@ -1,0 +1,14 @@
+<script type="text/javascript">
+<% if notice %>
+  Swal.fire({
+    icon: 'success',
+    title: '<%= notice %>'
+  })
+<% end %>
+<% if alert %>
+  Swal.fire({
+    icon: 'error',
+    title: '<%= alert %>'
+  })
+<% end %>
+</script>

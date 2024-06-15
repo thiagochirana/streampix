@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "mbessey.vscode-rufo",
+    "rebornix.ruby",
+    "aliariff.vscode-erb-beautify",
+    "shopify.ruby-lsp",
+    "vortizhe.simple-ruby-erb",
+    "castwide.solargraph",
+    "andrewmcodes.rails-extension-power-pack"
+  ]
+}

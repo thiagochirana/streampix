@@ -81,6 +81,7 @@ GEM
     bootsnap (1.18.3)
       msgpack (~> 1.2)
     builder (3.3.0)
+    chunky_png (1.4.0)
     colorize (1.1.0)
     concurrent-ruby (1.3.3)
     connection_pool (2.4.1)
@@ -96,6 +97,7 @@ GEM
     erubi (1.13.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    htmlbeautifier (1.4.3)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.0.1)
@@ -109,6 +111,12 @@ GEM
     jbuilder (2.12.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    kredis (1.7.0)
+      activemodel (>= 6.0.0)
+      activesupport (>= 6.0.0)
+      redis (>= 4.2, < 6)
+    language_server-protocol (3.17.0.3)
+    logger (1.6.0)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -145,6 +153,7 @@ GEM
     nokogiri (1.16.6-x86_64-linux)
       racc (~> 1.4)
     pg (1.5.6)
+    prism (0.30.0)
     psych (5.1.2)
       stringio
     puma (6.4.2)
@@ -188,6 +197,8 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
     rake (13.2.1)
+    rbs (3.5.1)
+      logger
     rdoc (6.7.0)
       psych (>= 4.0.0)
     redis (5.2.0)
@@ -196,6 +207,17 @@ GEM
       connection_pool
     reline (0.5.9)
       io-console (~> 0.5)
+    rqrcode (2.2.0)
+      chunky_png (~> 1.0)
+      rqrcode_core (~> 1.0)
+    rqrcode_core (1.2.0)
+    ruby-lsp (0.17.3)
+      language_server-protocol (~> 3.17.0)
+      prism (>= 0.29.0, < 0.31)
+      rbs (>= 3, < 4)
+      sorbet-runtime (>= 0.5.10782)
+    rufo (0.18.0)
+    sorbet-runtime (0.5.11432)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -239,12 +261,17 @@ DEPENDENCIES
   cssbundling-rails
   debug
   dotenv
+  htmlbeautifier
   importmap-rails
   jbuilder
+  kredis
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.3, >= 7.1.3.4)
   redis (>= 4.0.1)
+  rqrcode
+  ruby-lsp
+  rufo
   sprockets-rails
   stimulus-rails
   turbo-rails
