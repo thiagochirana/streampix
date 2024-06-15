@@ -1,17 +1,31 @@
 require "kredis"
+require "colorize"
 
 class RedisService
   def self.get(key)
-    redis_hash = Kredis.hash(key)
-    redis_hash.to_h.transform_keys(&:to_sym)
+    get_key = Kredis.string key
+    get_value = get_key.value
+
+    puts "KREDIS >>> GET".magenta
+    puts "KEY: > #{key}".magenta
+    puts "VALUE: > #{get_value}".magenta
+    puts "#{"=" * 10}".magenta
+
+    get_value
   end
 
-  def self.put(key, hash_obj, exp_time = nil)
-    redis_hash = Kredis.hash(key)
-
-    # Define o tempo de expiração se exp_time estiver especificado e for um número válido
+  def self.put(key, new_value, exp_time = nil)
     if exp_time && exp_time.is_a?(Numeric) && exp_time.positive?
-      redis_hash.expire(exp_time)
+      new_key = Kredis.string key, expires_in: exp_time
+    else
+      new_key = Kredis.string key
     end
+
+    new_key.value = new_value
+
+    puts "KREDIS >>> SET".magenta
+    puts "KEY: > #{new_key}".magenta
+    puts "VALUE: > #{new_value}".magenta
+    puts "#{"=" * 10}".magenta
   end
 end

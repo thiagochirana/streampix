@@ -6,10 +6,10 @@ require "colorize"
 
 class EfipayService
   def self.get_access_token
-    cred = RedisService.get "efipay"
-    if cred.present? && cred.key?(:access_token)
+    cred = RedisService.get "efipay_token"
+    if cred.present?
       puts "Encontrado efipay token em redis".green
-      return cred[:access_token]
+      return cred
     else
       puts "Nada de token efipay encontrado em Redis, buscar outro na API".yellow
     end
@@ -33,15 +33,8 @@ class EfipayService
     response = https.request(request)
     json_response = JSON.parse(response.body)
 
-    json_obj = {
-      "access_token" => json_response["access_token"],
-      "token_type" => json_response["bearer"],
-      "expires_in" => json_response["expires_in"],
-      "scope" => json_response["scope"],
-    }
-
     #SET em REDIS
-    RedisService.put("efipay", json_obj, json_response["scope"])
-    json_obj[:acess_token]
+    RedisService.put("efipay_token", json_response["access_token"], json_response["expires_in"])
+    json_response["access_token"]
   end
 end
