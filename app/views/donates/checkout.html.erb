@@ -1,3 +1,13 @@
 <h1>CHECKOUT</h1>
 
-<%= raw(@qr_svg.html_safe) %>
+<% if @qr_svg %>
+	<%= raw(@qr_svg.html_safe) %>
+<% end %>
+
+<% if @pix_copia_cola %>
+	<input class="form-control"
+		type="text"
+		value="<%= @pix_copia_cola %>" 
+		aria-label="copie e cole a chave pix"
+	readonly>
+<% end %>
