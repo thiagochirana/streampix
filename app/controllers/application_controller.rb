@@ -7,4 +7,8 @@ class ApplicationController < ActionController::Base
   # puts "#{Enviroments.certificado_path}".green
   # puts "#{Enviroments.teste}".green
   # puts "#{"=" * 5} FIM ENVS #{"=" * 5}".green
+
+  def execute_job
+    EfipayService.consult
+  end
 end

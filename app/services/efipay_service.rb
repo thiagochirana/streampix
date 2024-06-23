@@ -6,8 +6,18 @@ require "colorize"
 require "cpf_cnpj"
 require "sdk_ruby_apis_efi"
 require "hashie"
+require "kredis"
+require "unidecoder"
+require "byebug"
 
 class EfipayService
+  @options = {
+    client_id: Enviroments.efipay_client_id,
+    client_secret: Enviroments.efipay_secret,
+    certificate: Enviroments.certificado_path,
+    sandbox: Enviroments.is_develop_environment,
+  }
+
   def self.gen_new_payment(donate)
     body = {
       calendario: {
@@ -20,17 +30,8 @@ class EfipayService
       solicitacaoPagador: "Doação oríunda de livestream",
     }
 
-    options = {
-      client_id: Enviroments.efipay_client_id,
-      client_secret: Enviroments.efipay_secret,
-      certificate: Enviroments.certificado_path,
-      sandbox: Enviroments.is_develop_environment,
-    }
-
-    efipay = SdkRubyApisEfi.new(options)
+    efipay = SdkRubyApisEfi.new(@options)
     response = efipay.pixCreateImmediateCharge(body: body)
-
-    puts "response from EfiPay >>> #{response}".green
 
     data_payment = {
       "code_status" => 200,
@@ -39,7 +40,40 @@ class EfipayService
       "exp_time" => response["calendario"]["expiracao"],
     }
 
+    name = "qrcode_user_#{donate.nickname}"
+    @pre_checkout = Kredis.hash name
+    @pre_checkout.update("pixCopiaCola" => response["pixCopiaECola"], "txid" => response["txid"])
+
     Hashie::Mash.new data_payment
+  end
+
+  def self.consult(donate)
+    VerifyPaymentJob.set(wait: 35.seconds).perform_later donate
+
+    # TODO first request in 35segs
+    # new consult_payment each 20 segs until status starts.with?("REMOV")
+
+    #get response in redis and verify the response
+
+  end
+
+  def self.consult_payment(donate)
+    name = "qrcode_user_#{donate.nickname}"
+    checkout = Kredis.hash name
+    data = checkout.to_h
+
+    puts "REDIS >>  Veio do Redis #{checkout}"
+    params = {
+      txid: data[:txid],
+    }
+
+    efipay = SdkRubyApisEfi.new(@options)
+    response = efipay.pixDetailCharge(params: params)
+    data_resp = Hashie::Mash.new response
+
+    resp = Kredis.string "status_#{name}"
+    resp = data_resp
+    data_resp
   end
 
   def self.get_access_token
