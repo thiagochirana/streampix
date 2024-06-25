@@ -4,8 +4,9 @@ class CreateDonates < ActiveRecord::Migration[7.1]
       t.string :nickname
       t.text :message
       t.float :value
-      t.boolean :was_paid
-      
+      t.boolean :was_paid, default: false
+      t.string :status
+
       t.timestamps
     end
   end

@@ -44,25 +44,18 @@ class EfipayService
     @pre_checkout = Kredis.hash name
     @pre_checkout.update("pixCopiaCola" => response["pixCopiaECola"], "txid" => response["txid"])
 
+    VerifyPaymentJob.set(wait: 20.seconds).perform_later donate
+
     Hashie::Mash.new data_payment
   end
 
-  def self.consult(donate)
-    VerifyPaymentJob.set(wait: 35.seconds).perform_later donate
-
-    # TODO first request in 35segs
-    # new consult_payment each 20 segs until status starts.with?("REMOV")
-
-    #get response in redis and verify the response
-
-  end
-
   def self.consult_payment(donate)
+    puts "Consultando status do donate #{donate.id}".blue
+
     name = "qrcode_user_#{donate.nickname}"
     checkout = Kredis.hash name
     data = checkout.to_h
 
-    puts "REDIS >>  Veio do Redis #{checkout}"
     params = {
       txid: data[:txid],
     }
@@ -72,8 +65,10 @@ class EfipayService
     data_resp = Hashie::Mash.new response
 
     resp = Kredis.string "status_#{name}"
-    resp = data_resp
-    data_resp
+    resp.value = data_resp.status
+
+    puts "Status do donate #{donate.id} >> #{data_resp.status}".blue
+    data_resp.status
   end
 
   def self.get_access_token

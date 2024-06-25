@@ -1,13 +1,12 @@
 <h1>CHECKOUT</h1>
-
 <% if @qr_svg %>
-	<%= raw(@qr_svg.html_safe) %>
+  <%= raw(@qr_svg.html_safe) %>
 <% end %>
-
 <% if @pix_copia_cola %>
-	<input class="form-control"
+  <input class="form-control"
 		type="text"
 		value="<%= @pix_copia_cola %>" 
 		aria-label="copie e cole a chave pix"
 	readonly>
 <% end %>
+<a href="<%= root_path %>"  class="btn btn-success">Já fiz o meu donate!</a>

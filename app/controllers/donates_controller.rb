@@ -10,7 +10,7 @@ class DonatesController < ApplicationController
     if @donate.save
       redirect_to donate_checkout_path(@donate)
     else
-      redirect_to root_path, flash.alert = "não deu bom"
+      redirect_to root_path, flash.alert = "Não deu bom"
     end
   end
 
@@ -36,6 +36,9 @@ class DonatesController < ApplicationController
   def consult_payment
     @donate = Donate.find_by(id: params[:donate_id])
     @status = EfipayService.consult_payment @donate
+  end
+
+  def thanks
   end
 
   def donate_params
