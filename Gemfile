@@ -55,6 +55,8 @@ gem "sdk_ruby_apis_efi"
 gem "hashie"
 gem "unidecoder"
 gem "whenever"
+gem "devise"
+gem "ruby-audio", "~> 1.6", ">= 1.6.1"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
