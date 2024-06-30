@@ -1,6 +1,6 @@
-<div class="alert">
-  <p><strong><%= donate.nickname %></strong> fortaleceu com R$<strong><%= donate.value %></strong>.</p>
-  <audio id="audio-donate-<%= donate.id %>" preload="auto" autoplay>
+<div class="alert" id="alert-<%= donate_id %>">
+  <p><strong><%= donate_nickname %></strong> fortaleceu com R$<strong><%= donate_value %></strong>.</p>
+  <audio id="audio-donate-<%= donate_id %>" preload="auto" autoplay>
     <source src="<%= file_path_audio %>" type="audio/mpeg">
   </audio>
 </div>

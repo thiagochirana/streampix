@@ -18,8 +18,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_222145) do
     t.string "nickname"
     t.text "message"
     t.float "value"
-    t.boolean "was_paid", default: false
-    t.string "status"
+    t.boolean "was_paid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
