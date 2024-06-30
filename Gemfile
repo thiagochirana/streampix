@@ -56,7 +56,9 @@ gem "hashie"
 gem "unidecoder"
 gem "whenever"
 gem "devise"
-gem "ruby-audio", "~> 1.6", ">= 1.6.1"
+
+gem "mp3info"
+gem "aws-sdk", "~> 3"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

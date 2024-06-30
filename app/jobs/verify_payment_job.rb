@@ -7,6 +7,7 @@ class VerifyPaymentJob < ApplicationJob
   def perform(*args)
     donate = args.first
     status = EfipayService.consult_payment donate
+    @file_path_audio = "/money_soundfx.mp3"
 
     if status.starts_with?("REMOVIDA")
       puts "Pagamento do donate #{donate.id} foi cancelado".red
@@ -19,7 +20,7 @@ class VerifyPaymentJob < ApplicationJob
         "alerts",
         target: "alert-container",
         partial: "alerts/alert",
-        locals: { donate: donate },
+        locals: { donate: donate, file_path_audio: @file_path_audio },
       )
     elsif status.starts_with?("ATIVA")
       puts "Donate #{donate.id} ainda está em aberto, vou realizar nova request".yellow

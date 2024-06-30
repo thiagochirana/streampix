@@ -2,6 +2,7 @@ require "rqrcode"
 
 class DonatesController < ApplicationController
   def index
+    @title_page = "Donates"
     @donate = Donate.new
   end
 
@@ -15,11 +16,12 @@ class DonatesController < ApplicationController
   end
 
   def checkout
+    @title_page = "Checkout"
     @donate = Donate.find_by(id: params[:donate_id])
     data = EfipayService.gen_new_payment @donate
     # if data[:code_status] < 300
     qrcode = RQRCode::QRCode.new(data.pix_copia_cola)
-
+    
     @qr_svg = qrcode.as_svg(
       color: "FFF",
       shape_rendering: "crispEdges",
@@ -27,7 +29,6 @@ class DonatesController < ApplicationController
       standalone: true,
       use_path: true,
     )
-    @pix_copia_cola = data.pix_copia_cola
     # else
     #   redirect_to root_path, alert: "#{data[:message]}"
     # end
@@ -39,6 +40,7 @@ class DonatesController < ApplicationController
   end
 
   def thanks
+    @title_page = "Obrigado!"
   end
 
   def donate_params

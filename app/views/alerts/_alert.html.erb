@@ -1,6 +1,6 @@
 <div class="alert">
   <p><strong><%= donate.nickname %></strong> fortaleceu com R$<strong><%= donate.value %></strong>.</p>
-  <audio id="alert-audio-<%= donate.id %>"  preload="auto" autoplay="true">
+  <audio id="audio-donate-<%= donate.id %>" preload="auto" autoplay>
     <source src="<%= file_path_audio %>" type="audio/mpeg">
   </audio>
 </div>
@@ -12,12 +12,3 @@
     border: 1px solid #ccc;
   }
 </style>
-<script>
-  document.addEventListener('turbo:load', () => {
-    const audioElement = document.getElementById('alert-audio-<%= donate.id %>');
-    if (audioElement) {
-      console.log("reproduzindo audio <%= file_path_audio %>");
-      audioElement.play();
-    }
-  });
-</script>
