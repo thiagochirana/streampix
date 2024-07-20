@@ -1,0 +1,14 @@
+<div class="alert" id="alert-<%= donate_id %>">
+  <p><strong><%= donate_nickname %></strong> fortaleceu com R$<strong><%= donate_value %></strong>.</p>
+  <audio id="audio-donate-<%= donate_id %>" preload="auto" autoplay>
+    <source src="<%= file_path_audio %>" type="audio/mpeg">
+  </audio>
+  <style>
+  .alert {
+    background-color: yellow;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+  }
+  </style>
+</div>
