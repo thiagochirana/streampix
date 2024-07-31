@@ -1,9 +1,10 @@
 <template>
   <h1>OI CHEGAY TESTE DE VIEW</h1>
+  <Button>Click me</Button>
 </template>
 
-<script>
-console.log('HELLO WORLD')
+<script setup>
+import { Button } from '@/components/ui/button'
 </script>
 
 <style scoped>
