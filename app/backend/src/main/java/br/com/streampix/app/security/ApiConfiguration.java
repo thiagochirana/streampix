@@ -31,6 +31,7 @@ public class ApiConfiguration {
                         req.requestMatchers("/**")
                                 .permitAll()
                                 .requestMatchers(POST,"/api/v1/auth/login").permitAll()
+                                .requestMatchers(POST,"/api/v1/checkout").permitAll()
                                 .requestMatchers(POST,"/api/v1/auth/sign_up").permitAll()
                                 .requestMatchers(POST,"/api/v1/auth/refresh_token").permitAll()
                                 .anyRequest()
