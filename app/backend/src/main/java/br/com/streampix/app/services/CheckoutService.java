@@ -2,32 +2,30 @@ package br.com.streampix.app.services;
 
 import br.com.streampix.app.models.checkout.Checkout;
 import br.com.streampix.app.models.records.checkout.CheckoutJson;
-import br.com.streampix.app.repositories.CheckoutRepositoryRedis;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CheckoutService {
 
-    private final CheckoutRepositoryRedis checkoutRepositoryRedis;
     private final RedisService redis;
+    private static final String PREFIX = "CO_";
 
     public ResponseEntity doCheckout(CheckoutJson json) throws JsonProcessingException {
-        Checkout checkout = new Checkout(null, json.nickname(), json.message(), json.value(), "100");
-        redis.put("CO_"+json.nickname(), checkout);
+        Checkout checkout = new Checkout(json.nickname(), json.message(), json.value(), "60");
+        redis.put(PREFIX+json.nickname(), checkout, 60);
         return ResponseEntity.ok().body("Deu bom em por no Redis");
     }
 
     public ResponseEntity getRedis(String nickname) throws JsonProcessingException {
-        List<Checkout> checkouts = redis.findByAttribute("CO_"+nickname, "nickname", nickname, Checkout.class);
+        List<Checkout> checkouts = redis.findByAttribute(PREFIX+nickname, "nickname", nickname, Checkout.class);
         if (checkouts.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(404).body("Nada encontrado com o nickname \"" + nickname+"\"");
         } else {
             return ResponseEntity.ok(checkouts);
         }

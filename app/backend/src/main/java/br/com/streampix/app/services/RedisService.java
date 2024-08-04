@@ -22,6 +22,11 @@ public class RedisService {
         redisTemplate.opsForValue().set(key, modelJson);
     }
 
+    public <T> void put(String key, T model, int secondsToExpire) throws JsonProcessingException {
+        String modelJson = objectMapper.writeValueAsString(model);
+        redisTemplate.opsForValue().set(key, modelJson, secondsToExpire, TimeUnit.SECONDS);
+    }
+
     public <T> T get(String key, Class<T> clazz) throws JsonProcessingException {
         String modelJson = redisTemplate.opsForValue().get(key);
         if (modelJson != null) {
@@ -31,9 +36,9 @@ public class RedisService {
         }
     }
 
-    public <T> List<T> findByAttribute(String prefix, String attributeName, String attributeValue, Class<T> clazz) throws JsonProcessingException, JsonMappingException {
+    public <T> List<T> findByAttribute(String prefixKey, String attributeName, String attributeValue, Class<T> clazz) throws JsonProcessingException, JsonMappingException {
         List<T> models = new ArrayList<>();
-        for (String key : Objects.requireNonNull(redisTemplate.keys(prefix + "*"))) {
+        for (String key : Objects.requireNonNull(redisTemplate.keys(prefixKey + "*"))) {
             String modelJson = redisTemplate.opsForValue().get(key);
             if (modelJson != null) {
                 T model = objectMapper.readValue(modelJson, clazz);
