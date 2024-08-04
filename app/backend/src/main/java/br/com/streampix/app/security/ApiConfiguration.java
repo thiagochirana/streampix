@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -32,6 +33,7 @@ public class ApiConfiguration {
                                 .permitAll()
                                 .requestMatchers(POST,"/api/v1/auth/login").permitAll()
                                 .requestMatchers(POST,"/api/v1/checkout").permitAll()
+                                .requestMatchers(GET,"/api/v1/checkout").permitAll()
                                 .requestMatchers(POST,"/api/v1/auth/sign_up").permitAll()
                                 .requestMatchers(POST,"/api/v1/auth/refresh_token").permitAll()
                                 .anyRequest()
